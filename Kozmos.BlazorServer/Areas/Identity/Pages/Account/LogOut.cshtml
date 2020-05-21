@@ -1,0 +1,17 @@
+﻿@page
+@using Microsoft.AspNetCore.Identity
+@using Kozmos.Models
+
+@attribute [IgnoreAntiforgeryToken]
+@inject SignInManager<KozmosUser> SignInManager
+@functions {
+    public async Task<IActionResult> OnPost()
+    {
+        if (SignInManager.IsSignedIn(User))
+        {
+            await SignInManager.SignOutAsync();
+        }
+
+        return Redirect("~/");
+    }
+}
