@@ -17,6 +17,7 @@ using Kozmos.BlazorServer.Areas.Identity;
 using Kozmos.BlazorServer.Data;
 using Kozmos.Data;
 using Kozmos.Models;
+using Microsoft.AspNetCore.Authentication;
 
 namespace Kozmos.BlazorServer
 {
@@ -48,6 +49,43 @@ namespace Kozmos.BlazorServer
             services.AddScoped<AuthenticationStateProvider, RevalidatingIdentityAuthenticationStateProvider<KozmosUser>>();
             
             services.AddSingleton<WeatherForecastService>();
+
+
+            services.AddAuthentication(options =>
+            {
+                options.DefaultScheme = "cookie";
+                options.DefaultChallengeScheme = "oidc";
+            }).AddCookie("cookie")
+              .AddOpenIdConnect("oidc", options =>
+              {
+                  options.Authority = "https://localhost:5000";
+                  options.RequireHttpsMetadata = false;
+
+                  options.ClientId = "mvc";
+                  options.ClientSecret = "mvc_secret";
+                  options.ResponseType = "code";
+                  options.UsePkce = true;
+
+                  options.Scope.Add("openid");
+                  options.Scope.Add("profile");
+                  //options.Scope.Add("email");
+                  //options.Scope.Add("personal");
+                  //options.Scope.Add("janus");
+                  options.Scope.Add("api1");
+                  //options.Scope.Add("api2");
+
+                  //options.ClaimActions.MapUniqueJsonKey("sox.pozi", "kasi");
+                  //options.ClaimActions.MapUniqueJsonKey("sox.mom", "mother");
+                  //options.ClaimActions.MapUniqueJsonKey("sox.dad", "father");
+
+                  options.GetClaimsFromUserInfoEndpoint = true;
+
+                  options.SignInScheme = "cookie";
+
+                  options.SaveTokens = true;
+
+
+              });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -75,6 +113,7 @@ namespace Kozmos.BlazorServer
 
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapDefaultControllerRoute();
                 endpoints.MapControllers();
                 endpoints.MapBlazorHub();
                 endpoints.MapFallbackToPage("/_Host");

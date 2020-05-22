@@ -110,6 +110,8 @@ namespace IdentityServer4.Quickstart.UI
                     var user = await _userManager.FindByNameAsync(model.Username);
                     await _events.RaiseAsync(new UserLoginSuccessEvent(user.UserName, user.Id, user.UserName, clientId: context?.ClientId));
 
+                    //await HttpContext.SignInAsync(user.UserName, user.UserName,new AuthenticationProperties { });
+
                     if (context != null)
                     {
                         if (await _clientStore.IsPkceClientAsync(context.ClientId))

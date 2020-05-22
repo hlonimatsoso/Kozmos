@@ -5,3 +5,17 @@
 Welcome to your new app.
 
 <SurveyPrompt Title="How is Blazor working for you?" />
+
+
+<AuthorizeView>
+    <Authorized>
+        Claims
+        @foreach (var item in context.User.Claims)
+        {
+            @($"{item.Type} : {item.Value}")
+        }
+    </Authorized>
+    <NotAuthorized>
+        Not Authorized therefore no claims
+    </NotAuthorized>
+</AuthorizeView>

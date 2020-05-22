@@ -44,7 +44,7 @@ namespace Kozmos.Identity
             });
 
             services.AddDbContext<KozmosDbContext>(options =>
-                options.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
+                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddIdentity<KozmosUser, IdentityRole>()
                 .AddEntityFrameworkStores<KozmosDbContext>()
