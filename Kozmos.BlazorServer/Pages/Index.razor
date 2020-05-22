@@ -9,11 +9,18 @@ Welcome to your new app.
 
 <AuthorizeView>
     <Authorized>
-        Claims
-        @foreach (var item in context.User.Claims)
-        {
-            @($"{item.Type} : {item.Value}")
-        }
+        Claimzzz
+        <ul>
+            @foreach (var item in context.User.Claims)
+            {
+            <li>
+                @($"{item.Type} : {item.Value}")
+            </li>
+                
+            }
+
+        </ul>
+        
     </Authorized>
     <NotAuthorized>
         Not Authorized therefore no claims

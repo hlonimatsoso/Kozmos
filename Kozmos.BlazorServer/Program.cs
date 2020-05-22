@@ -22,7 +22,8 @@ namespace Kozmos.BlazorServer
             Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
-                    webBuilder.UseStartup<Startup>();
+                    webBuilder.UseStartup<Startup>()
+                    .UseUrls("https://localhost:5002/", "http://localhost:5003/"); ;
                 });
     }
 }
