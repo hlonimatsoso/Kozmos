@@ -33,6 +33,8 @@ namespace Kozmos.Identity.Services
 
             // Add custom claims in token here based on user properties or any other source
             claims.Add(new Claim("kasi", user.City ?? string.Empty));
+            claims.Add(new Claim("employee_id", user.EmployeeId ?? string.Empty));
+
 
             context.IssuedClaims = claims;
         }

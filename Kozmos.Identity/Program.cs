@@ -54,6 +54,7 @@ namespace Kozmos.Identity
                     return 0;
                 }
 
+
                 Log.Information("Starting host...");
                 host.Run();
                 return 0;

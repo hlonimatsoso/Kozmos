@@ -21,8 +21,9 @@ namespace Kozmos.Identity
         {
             var services = new ServiceCollection();
             services.AddLogging();
+
             services.AddDbContext<KozmosDbContext>(options =>
-               options.UseSqlite(connectionString));
+               options.UseSqlServer(connectionString));
 
             services.AddIdentity<KozmosUser, IdentityRole>()
                 .AddEntityFrameworkStores<KozmosDbContext>()
@@ -41,13 +42,19 @@ namespace Kozmos.Identity
                     {
                         alice = new KozmosUser
                         {
-                            UserName = "alice"
+                            UserName = "alice",
+                            Email = "AliceSmith@email.com",
+                            EmailConfirmed = true,
+                            IsEnabled = true,
+                            EmployeeId = "EMP00001",
+                            City = "Cape Town"
                         };
                         var result = userMgr.CreateAsync(alice, "Pass123$").Result;
                         if (!result.Succeeded)
                         {
                             throw new Exception(result.Errors.First().Description);
                         }
+
 
                         result = userMgr.AddClaimsAsync(alice, new Claim[]{
                         new Claim(JwtClaimTypes.Name, "Alice Smith"),
@@ -56,8 +63,13 @@ namespace Kozmos.Identity
                         new Claim(JwtClaimTypes.Email, "AliceSmith@email.com"),
                         new Claim(JwtClaimTypes.EmailVerified, "true", ClaimValueTypes.Boolean),
                         new Claim(JwtClaimTypes.WebSite, "http://alice.com"),
-                        new Claim(JwtClaimTypes.Address, @"{ 'street_address': 'One Hacker Way', 'locality': 'Heidelberg', 'postal_code': 69118, 'country': 'Germany' }", IdentityServer4.IdentityServerConstants.ClaimValueTypes.Json)
-                    }).Result;
+                        new Claim(JwtClaimTypes.Address, @"{ 'street_address': 'One Hacker Way', 'locality': 'Heidelberg', 'postal_code': 69118, 'country': 'Germany' }", IdentityServer4.IdentityServerConstants.ClaimValueTypes.Json),
+                        new Claim("custom.email", "custom_AliceSmithh@email.com"),
+                        new Claim("custom.phone", "custom_083 321 7654"),
+                        new Claim("location", "Sandton"),
+                        new Claim("api1.view","true"),new Claim("api1.edit","true"),new Claim("api1.view","false")
+
+                        }).Result;
                         if (!result.Succeeded)
                         {
                             throw new Exception(result.Errors.First().Description);
@@ -74,7 +86,12 @@ namespace Kozmos.Identity
                     {
                         bob = new KozmosUser
                         {
-                            UserName = "bob"
+                            UserName = "bob",
+                            Email = "BobSmith@email.com",
+                            EmailConfirmed = true,
+                            IsEnabled = true,
+                            EmployeeId = "EMP00002",
+                            City = "JHB"
                         };
                         var result = userMgr.CreateAsync(bob, "Pass123$").Result;
                         if (!result.Succeeded)
@@ -90,7 +107,12 @@ namespace Kozmos.Identity
                         new Claim(JwtClaimTypes.EmailVerified, "true", ClaimValueTypes.Boolean),
                         new Claim(JwtClaimTypes.WebSite, "http://bob.com"),
                         new Claim(JwtClaimTypes.Address, @"{ 'street_address': 'One Hacker Way', 'locality': 'Heidelberg', 'postal_code': 69118, 'country': 'Germany' }", IdentityServer4.IdentityServerConstants.ClaimValueTypes.Json),
-                        new Claim("location", "somewhere")
+                        new Claim("location", "somewhere"),
+                        new Claim("custom.email", "custom_BobSmith@email.com"),
+                        new Claim("custom.phone", "custom_082 123 4567"),
+                        new Claim("api1.view","true"),new Claim("api1.edit","true"),new Claim("api1.delete","true"),
+                        new Claim("api1.admin.view","true"),new Claim("api1.admin.edit","true"),new Claim("api1.admin.delete","true")
+
                     }).Result;
                         if (!result.Succeeded)
                         {

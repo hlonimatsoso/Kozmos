@@ -8,6 +8,7 @@ namespace Kozmos.Models
     public class KozmosUser : IdentityUser
     {
         public string City { get; set; }
-
+        public bool IsEnabled { get; set; }
+        public string EmployeeId { get; set; }
     }
 }

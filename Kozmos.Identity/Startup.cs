@@ -3,8 +3,11 @@
 
 
 using IdentityServer4.Configuration;
+using IdentityServer4.EntityFramework.DbContexts;
+using IdentityServer4.EntityFramework.Mappers;
 using IdentityServer4.Services;
 using Kozmos.Data;
+using Kozmos.Data.Config;
 using Kozmos.Identity.Services;
 using Kozmos.Models;
 using Microsoft.AspNetCore.Builder;
@@ -15,6 +18,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
+using System.Linq;
 using System.Reflection;
 
 namespace Kozmos.Identity
@@ -35,8 +39,6 @@ namespace Kozmos.Identity
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
-
-            services.AddScoped<IProfileService, KozmosProfileService>();
 
             // configures IIS out-of-proc settings (see https://github.com/aspnet/AspNetCore/issues/14882)
             services.Configure<IISOptions>(iis =>
@@ -98,10 +100,22 @@ namespace Kozmos.Identity
                     options.ClientId = "copy client ID from Google here";
                     options.ClientSecret = "copy client secret from Google here";
                 });
+
+            services.AddScoped<IProfileService, KozmosProfileService>();
+
         }
 
         public void Configure(IApplicationBuilder app)
         {
+
+            // this will do the initial DB population
+            bool seed = Configuration.GetSection("Data").GetValue<bool>("Seed");
+            if (seed)
+            {
+                InitializeDatabase(app);
+                //throw new Exception("Seeding completed. Disable the seed flag in appsettings");
+            }
+
             if (Environment.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -118,5 +132,44 @@ namespace Kozmos.Identity
                 endpoints.MapDefaultControllerRoute();
             });
         }
+
+
+        private void InitializeDatabase(IApplicationBuilder app)
+        {
+            using (var serviceScope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope())
+            {
+                serviceScope.ServiceProvider.GetRequiredService<PersistedGrantDbContext>().Database.Migrate();
+
+                var context = serviceScope.ServiceProvider.GetRequiredService<ConfigurationDbContext>();
+                context.Database.Migrate();
+                if (!context.Clients.Any())
+                {
+                    foreach (var client in IdentityServer4Config.GetClients())
+                    {
+                        context.Clients.Add(client.ToEntity());
+                    }
+                    context.SaveChanges();
+                }
+
+                if (!context.IdentityResources.Any())
+                {
+                    foreach (var resource in IdentityServer4Config.GetIdentityResources())
+                    {
+                        context.IdentityResources.Add(resource.ToEntity());
+                    }
+                    context.SaveChanges();
+                }
+
+                if (!context.ApiResources.Any())
+                {
+                    foreach (var resource in IdentityServer4Config.GetApis())
+                    {
+                        context.ApiResources.Add(resource.ToEntity());
+                    }
+                    context.SaveChanges();
+                }
+            }
+        }
+
     }
 }

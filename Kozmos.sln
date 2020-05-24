@@ -5,15 +5,17 @@ VisualStudioVersion = 16.0.30104.148
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Kozmos.Api", "Kozmos.Api\Kozmos.Api.csproj", "{4A2DC165-AB06-4F5B-BBD1-522E28AF79C3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kozmos.BlazorServer", "Kozmos.BlazorServer\Kozmos.BlazorServer.csproj", "{62EAC2AD-C496-4CAF-80EF-FF6CFCAA29C4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Kozmos.BlazorServer", "Kozmos.BlazorServer\Kozmos.BlazorServer.csproj", "{62EAC2AD-C496-4CAF-80EF-FF6CFCAA29C4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kozmos", "Kozmos\Kozmos.csproj", "{2E4EA376-B1D9-4954-8D81-4EB2F0256BE4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Kozmos", "Kozmos\Kozmos.csproj", "{2E4EA376-B1D9-4954-8D81-4EB2F0256BE4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kozmos.Data", "Kozmos.Data\Kozmos.Data.csproj", "{122000B9-76C3-414F-815E-0E5C070A5857}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Kozmos.Data", "Kozmos.Data\Kozmos.Data.csproj", "{122000B9-76C3-414F-815E-0E5C070A5857}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kozmos.Application", "Kozmos.Application\Kozmos.Application.csproj", "{99137D65-3A27-4DD7-BCA0-CA64534045EA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Kozmos.Application", "Kozmos.Application\Kozmos.Application.csproj", "{99137D65-3A27-4DD7-BCA0-CA64534045EA}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Kozmos.Identity", "Kozmos.Identity\Kozmos.Identity.csproj", "{6B0AD268-A89F-4015-AD3D-C52976E02F9C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kozmos.AspPages", "Kozmos.AspPages\Kozmos.AspPages.csproj", "{8F4DAFB4-8467-4E02-A80A-A05189BD25F5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +47,10 @@ Global
 		{6B0AD268-A89F-4015-AD3D-C52976E02F9C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6B0AD268-A89F-4015-AD3D-C52976E02F9C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6B0AD268-A89F-4015-AD3D-C52976E02F9C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8F4DAFB4-8467-4E02-A80A-A05189BD25F5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8F4DAFB4-8467-4E02-A80A-A05189BD25F5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8F4DAFB4-8467-4E02-A80A-A05189BD25F5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8F4DAFB4-8467-4E02-A80A-A05189BD25F5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

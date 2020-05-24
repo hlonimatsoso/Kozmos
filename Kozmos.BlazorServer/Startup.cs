@@ -58,11 +58,11 @@ namespace Kozmos.BlazorServer
             }).AddCookie("cookie")
               .AddOpenIdConnect("oidc", options =>
               {
-                  options.Authority = "https://localhost:5000";
+                  options.Authority = "http://localhost:5000";
                   options.RequireHttpsMetadata = false;
 
                   options.ClientId = "mvc";
-                  options.ClientSecret = "mvc_secret";
+                  options.ClientSecret = "secret";
                   options.ResponseType = "code";
                   options.UsePkce = true;
 
@@ -71,9 +71,10 @@ namespace Kozmos.BlazorServer
                   //options.Scope.Add("email");
                   //options.Scope.Add("personal");
                   //options.Scope.Add("janus");
-                  options.Scope.Add("api1");
+                  options.Scope.Add("web_api");
                   //options.Scope.Add("api2");
 
+                  options.ClaimActions.MapUniqueJsonKey("EmployeeID", "employee_id");
                   //options.ClaimActions.MapUniqueJsonKey("sox.pozi", "kasi");
                   //options.ClaimActions.MapUniqueJsonKey("sox.mom", "mother");
                   //options.ClaimActions.MapUniqueJsonKey("sox.dad", "father");
