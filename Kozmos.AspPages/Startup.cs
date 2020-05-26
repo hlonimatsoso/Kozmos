@@ -8,6 +8,8 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.AspNetCore.Authentication;
 using Kozmos.Data;
 using Kozmos.Models;
+using Polly;
+using System;
 
 namespace Kozmos.AspPages
 {
@@ -23,7 +25,7 @@ namespace Kozmos.AspPages
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc();
+            services.AddControllers();
 
             services.AddDbContext<KozmosDbContext>(options =>
                 options.UseSqlServer(
@@ -78,7 +80,40 @@ namespace Kozmos.AspPages
 
                   options.SignInScheme = "cookie";
 
+                  options.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
+                  {
+                      NameClaimType = "Name"
+                  };
+
               });
+
+
+            // adds user and client access token management
+            services.AddAccessTokenManagement(options =>
+            {
+                // client config is inferred from OpenID Connect settings
+                // if you want to specify scopes explicitly, do it here, otherwise the scope parameter will not be sent
+                options.Client.Scope = "api1 api1.admin";
+            })
+            .ConfigureBackchannelHttpClient()
+            .AddTransientHttpErrorPolicy(policy => policy.WaitAndRetryAsync(new[]
+            {
+                TimeSpan.FromSeconds(1),
+                TimeSpan.FromSeconds(2),
+                TimeSpan.FromSeconds(3)
+            }));
+
+            // registers HTTP client that uses the managed user access token
+            services.AddUserAccessTokenClient("user_client", client =>
+            {
+                client.BaseAddress = new Uri(" https://localhost:5004/");
+            });
+
+            // registers HTTP client that uses the managed client access token
+            services.AddClientAccessTokenClient("client", configureClient: client =>
+            {
+                client.BaseAddress = new Uri(" https://localhost:5004/");
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

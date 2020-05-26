@@ -1,0 +1,21 @@
+﻿@page "{handler?}"
+@model Kozmos.AspPages.Pages.ApiCallsModel
+@{
+    ViewData["Title"] = "ApiCalls";
+}
+
+<h1>Api Calls</h1>
+
+<form method="post">
+    <div>
+        <input type="submit" value="As Client" asp-page-handler="AsClient" />
+    </div>
+    @if (User.Identity.IsAuthenticated)
+    {
+        <input type="submit" value="As User" asp-page-handler="AsUser"/>
+    }
+</form>
+
+<p>@Model.claimString</p>
+
+
