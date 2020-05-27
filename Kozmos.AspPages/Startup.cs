@@ -10,6 +10,7 @@ using Kozmos.Data;
 using Kozmos.Models;
 using Polly;
 using System;
+using Serilog;
 
 namespace Kozmos.AspPages
 {
@@ -26,6 +27,10 @@ namespace Kozmos.AspPages
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+
+            //services.AddSerilog
+
+            services.AddSingleton<ILogger>(Log.Logger);
 
             services.AddDbContext<KozmosDbContext>(options =>
                 options.UseSqlServer(
@@ -132,11 +137,15 @@ namespace Kozmos.AspPages
             }
 
             app.UseHttpsRedirection();
+
             app.UseStaticFiles();
 
             app.UseRouting();
 
+            //app.UseSerilog();
+
             app.UseAuthentication();
+
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

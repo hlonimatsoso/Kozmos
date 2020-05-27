@@ -22,8 +22,15 @@ namespace Kozmos.AspPages.Pages
 
         public void OnGet()
         {
+            throw new Exception("BOOM");
+
             at = HttpContext.GetTokenAsync("access_token").Result;
+            if (!string.IsNullOrWhiteSpace(at))
+                _logger.LogInformation("Access token: {@Access_Token} for User '{UserId}'",at,User.Identity.Name);
+
             idt = HttpContext.GetTokenAsync("id_token").Result;
+            if (!string.IsNullOrWhiteSpace(idt))
+                _logger.LogInformation("ID token: {@ID_Token}", at);
 
         }
     }
