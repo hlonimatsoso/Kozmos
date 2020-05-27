@@ -6,6 +6,7 @@
     <title>@ViewData["Title"] - Kozmos.AspPages</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
+    <link href="~/css/style.css" rel="stylesheet" />
 </head>
 <body>
     <header>
@@ -38,7 +39,20 @@
     </header>
     <div class="container">
         <main role="main" class="pb-3">
-            @RenderBody()
+
+            <!-- count particles -->
+            <div class="count-particles">
+                <span class="js-count-particles">
+                    
+
+                </span> particles
+            </div>
+
+            <!-- particles.js container -->
+            <div id="particles-js">
+                @RenderBody()
+            </div>
+
         </main>
     </div>
 
@@ -51,7 +65,10 @@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/js/particles.js" asp-append-version="false"></script>
 
+    <script src="~/js/app.js"></script>
+    <script src="~/js/stats.js"></script>
     @RenderSection("Scripts", required: false)
 </body>
 </html>

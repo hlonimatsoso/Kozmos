@@ -67,7 +67,7 @@ namespace Kozmos.Identity
                         new Claim("custom.email", "custom_AliceSmithh@email.com"),
                         new Claim("custom.phone", "custom_083 321 7654"),
                         new Claim("location", "Sandton"),
-                        new Claim("api1.view","true"),new Claim("api1.edit","true"),new Claim("api1.view","false")
+                        new Claim("api1.view","true"),new Claim("api1.edit","true"),new Claim("api1.delete","false")
 
                         }).Result;
                         if (!result.Succeeded)
